@@ -1,0 +1,7 @@
+builders:
+  freezed_factories:
+    import: "package:freezed_factories/builder.dart"
+    builder_factories: [ "factoryBuilder" ]
+    build_extensions: { ".dart": [ ".factory.dart" ] }
+    auto_apply: dependents
+    build_to: source
