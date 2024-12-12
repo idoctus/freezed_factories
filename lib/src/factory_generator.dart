@@ -99,7 +99,7 @@ class FactoryGenerator extends GeneratorForAnnotation<FreezedFactory> {
 part of 'person.dart';
 
 mixin _\$${className}Factory { 
-  final List<Person Function(Person)> _states = [];
+  final List<${className} Function(${className})> _states = [];
 
   ${className} get defaults;
   
@@ -113,17 +113,26 @@ mixin _\$${className}Factory {
     return object;
   }
   
-  PersonFactory state(Person Function(Person) callback) {
-    _states.add(callback);
+  ${className}Factory state(
+      ${className} Function(${className}) Function(\$${className}FactoryState) state) {
+    _states.add(state(_state));
 
-    return this as PersonFactory;
+    return this as ${className}Factory;
   }
+  
+  \$${className}FactoryState get _state => _\$${className}FactoryStateImpl();
 
   \$${className}FactoryCreate get create =>
       _\$${className}FactoryCreateImpl(() => _createFromStates);
 
   \$${className}FactoryCreateMany get createMany =>
       _\$${className}FactoryCreateManyImpl(() => _createFromStates);
+}
+
+abstract class \$${className}FactoryState {
+  ${className} Function(${className}) call({
+    ${typedParameters}
+  });
 }
 
 abstract class \$${className}FactoryCreate {
@@ -136,6 +145,21 @@ abstract class \$${className}FactoryCreateMany {
   List<${className}> call(int count, {
     ${typedParameters}
   });
+}
+
+class _\$${className}FactoryStateImpl
+    implements \$${className}FactoryState {
+  _\$${className}FactoryStateImpl();
+
+  @override
+  ${className} Function(${className}) call({
+    ${dynamicParameters}
+  }) =>
+      (defaults) =>
+          (defaults.copyWith as _\$${className}CopyWithImpl<${className}, ${className}>)
+              .call(
+            ${callParameters}
+          );
 }
 
 class _\$${className}FactoryCreateImpl
