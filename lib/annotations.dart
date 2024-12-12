@@ -1,5 +1,5 @@
 class FreezedFactory<T> {
-  const FreezedFactory();
-}
+  const FreezedFactory(this.type);
 
-const freezedFactory = FreezedFactory();
+  final Type type;
+}

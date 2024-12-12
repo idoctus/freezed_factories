@@ -11,14 +11,23 @@ class FactoryGenerator extends GeneratorForAnnotation<FreezedFactory> {
     ConstantReader annotation,
     BuildStep buildStep,
   ) {
-    checkIsClass(element);
-    element as ClassElement;
+    // get property type from annotation
+    final typeElement = annotation.read('type').typeValue.element;
 
-    checkFreezed(element);
-    checkFactoryDefaultGetter(element);
-    checkFactoryGetter(element);
+    if (typeElement == null) {
+      throw InvalidGenerationSourceError(
+        'Invalid type provided to @FreezedFactory annotation.',
+        element: element,
+      );
+    }
 
-    final constructor = element.constructors.firstWhere(
+    checkIsClass(typeElement);
+    typeElement as ClassElement;
+
+    checkFreezed(typeElement);
+    checkFactoryGetter(typeElement);
+
+    final constructor = typeElement.constructors.firstWhere(
       (element) => !element.isPrivate && element.isFactory,
       orElse: () => throw InvalidGenerationSourceError(
         '@freezedFactory can only be applied on classes with a public factory.',
@@ -27,9 +36,9 @@ class FactoryGenerator extends GeneratorForAnnotation<FreezedFactory> {
     );
 
     final parameters = constructor.parameters;
-    checkParameters(parameters, element);
+    checkParameters(parameters, typeElement);
 
-    return _generateFactory(element.name, parameters);
+    return _generateFactory(typeElement.name, parameters);
   }
 
   void checkIsClass(Element element) {
@@ -47,24 +56,6 @@ class FactoryGenerator extends GeneratorForAnnotation<FreezedFactory> {
       throw InvalidGenerationSourceError(
         '@freezedFactory can only be applied on classes with @freezed annotation.',
         element: element,
-      );
-    }
-  }
-
-  void checkFactoryDefaultGetter(ClassElement element) {
-    final factoryDefaultGetter = element.getGetter('factoryDefault');
-
-    if (factoryDefaultGetter == null || !factoryDefaultGetter.isStatic) {
-      throw InvalidGenerationSourceError(
-        '@freezedFactory needs a factoryDefault static getter.',
-        element: element,
-      );
-    }
-
-    if (factoryDefaultGetter.returnType.element != element) {
-      throw InvalidGenerationSourceError(
-        'factoryDefault getter should return ${element.name}.',
-        element: factoryDefaultGetter,
       );
     }
   }
@@ -107,12 +98,32 @@ class FactoryGenerator extends GeneratorForAnnotation<FreezedFactory> {
     return '''
 part of 'person.dart';
 
-class \$${className}Factory { 
+mixin _\$${className}Factory { 
+  final List<Person Function(Person)> _states = [];
+
+  ${className} get defaults;
+  
+  ${className} get _createFromStates {
+    var object = defaults;
+
+    for (final modifier in _states) {
+      object = modifier(object);
+    }
+
+    return object;
+  }
+  
+  PersonFactory state(Person Function(Person) callback) {
+    _states.add(callback);
+
+    return this as PersonFactory;
+  }
+
   \$${className}FactoryCreate get create =>
-      _\$${className}FactoryCreateImpl(${className}.factoryDefault);
+      _\$${className}FactoryCreateImpl(() => _createFromStates);
 
   \$${className}FactoryCreateMany get createMany =>
-      _\$${className}FactoryCreateManyImpl(${className}.factoryDefault);
+      _\$${className}FactoryCreateManyImpl(() => _createFromStates);
 }
 
 abstract class \$${className}FactoryCreate {
@@ -121,44 +132,41 @@ abstract class \$${className}FactoryCreate {
   });
 }
 
+abstract class \$${className}FactoryCreateMany {
+  List<${className}> call(int count, {
+    ${typedParameters}
+  });
+}
+
 class _\$${className}FactoryCreateImpl
     implements \$${className}FactoryCreate {
   _\$${className}FactoryCreateImpl(this._default);
 
-  final ${className} _default;
+  final ${className} Function() _default;
 
   @override
   ${className} call({
-   ${dynamicParameters}
+    ${dynamicParameters}
   }) =>
-      (_default.copyWith as _\$${className}CopyWithImpl<${className},
-              ${className}>)
-          .call(
-        ${callParameters}
-      );
-}
-
-abstract class \$${className}FactoryCreateMany {
-  List<${className}> call(
-    int count, {
-    ${typedParameters}
-  });
+      (_default().copyWith as _\$${className}CopyWithImpl<${className}, ${className}>)
+            .call(
+          ${callParameters}
+        );
 }
 
 class _\$${className}FactoryCreateManyImpl
     implements \$${className}FactoryCreateMany {
   _\$${className}FactoryCreateManyImpl(this._default);
 
-  final ${className} _default;
+  final ${className} Function() _default;
 
   @override
-  List<${className}> call(
-    int count, {
+  List<${className}> call(int count, {
     ${dynamicParameters}
   }) =>
       List.generate(
         count,
-        (index) => (_default.copyWith as _\$${className}CopyWithImpl<
+        (index) => (_default().copyWith as _\$${className}CopyWithImpl<
                 ${className}, ${className}>)
             .call(
           ${callParameters}
