@@ -96,8 +96,6 @@ class FactoryGenerator extends GeneratorForAnnotation<FreezedFactory> {
     }
 
     return '''
-part of 'person.dart';
-
 mixin _\$${className}Factory { 
   final List<${className} Function(${className})> _states = [];
 
