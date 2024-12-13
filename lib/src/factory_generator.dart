@@ -1,4 +1,5 @@
 import 'package:analyzer/dart/element/element.dart';
+import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:build/build.dart';
 import 'package:source_gen/source_gen.dart';
 
@@ -11,7 +12,6 @@ class FactoryGenerator extends GeneratorForAnnotation<FreezedFactory> {
     ConstantReader annotation,
     BuildStep buildStep,
   ) {
-    // get property type from annotation
     final typeElement = annotation.read('type').typeValue.element;
 
     if (typeElement == null) {
@@ -89,10 +89,13 @@ class FactoryGenerator extends GeneratorForAnnotation<FreezedFactory> {
     var callParameters = '';
 
     for (final parameter in parameters) {
-      typedParameters += '    ${parameter.type} ${parameter.name},\n';
-      dynamicParameters +=
-          '    Object? ${parameter.name}${parameter.isRequired ? '' : ' = freezed'},\n';
-      callParameters += '        ${parameter.name}: ${parameter.name},\n';
+      final type = parameter.type;
+      final name = parameter.name;
+      final isNullable = type.nullabilitySuffix == NullabilitySuffix.question;
+
+      typedParameters += '$type $name,\n';
+      dynamicParameters += 'Object? $name${isNullable ? ' = freezed' : ''},\n';
+      callParameters += '$name: $name,\n';
     }
 
     return '''
