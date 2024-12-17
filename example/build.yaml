@@ -1,0 +1,6 @@
+targets:
+  $default:
+    builders:
+      freezed_factories:
+        generate_for:
+          - lib/*.dart
