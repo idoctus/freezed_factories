@@ -1,5 +1,5 @@
 name: freezed_factories
-description: "Factories for freezed classes"
+description: "Create test factories for your Freezed classes easily"
 version: 0.0.1
 homepage:
 
