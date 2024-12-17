@@ -1,39 +1,34 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# freezed_factories
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/tools/pub/writing-package-pages).
+Create tests factories for your Freezed classes easily using code generation.
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/to/develop-packages).
--->
+## Example
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
-
-## Features
-
-TODO: List what your package can do. Maybe include images, gifs, or videos.
-
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
-
-## Usage
-
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+To generate a factory for class, create a class, annotate it with
+`@FreezedFactory(FreezedClassName)`, add the mixin and override the `defaults` getter.
 
 ```dart
-const like = 'sample';
+@freezed
+class Person with _$Person {
+  const factory Person({
+    required String firstName,
+    required String lastName,
+    int? age,
+  }) = _Person;
+
+  static PersonFactory get factory => PersonFactory();
+}
+
+@FreezedFactory(Person)
+class PersonFactory with _$PersonFactory {
+  @override
+  Person get defaults =>
+      Person(
+        firstName: faker.person.firstName(),
+        lastName: faker.person.lastName(),
+        age: faker.randomGenerator.integer(99),
+      );
+}
 ```
 
-## Additional information
-
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+In the example above, [faker](https://pub.dev/packages/faker) is used to generate random data.
