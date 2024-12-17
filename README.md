@@ -1,13 +1,16 @@
 # freezed_factories
 
-Create tests factories for your Freezed classes easily using code generation.
+Create test factories for your Freezed classes easily.
 
 ## Example
 
 To generate a factory for class, create a class, annotate it with
-`@FreezedFactory(FreezedClassName)`, add the mixin and override the `defaults` getter.
+`@FreezedFactory(FreezedClassName)`, add the mixin, override the `defaults` getter and import the
+part file.
 
 ```dart
+part 'person.factory.dart';
+
 @freezed
 class Person with _$Person {
   const factory Person({
