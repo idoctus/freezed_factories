@@ -100,11 +100,11 @@ class FactoryGenerator extends GeneratorForAnnotation<FreezedFactory> {
 
     return '''
 mixin _\$${className}Factory { 
-  final List<${className} Function(${className})> _states = [];
+  final List<$className Function($className)> _states = [];
 
-  ${className} get defaults;
+  $className get defaults;
   
-  ${className} get _createFromStates {
+  $className get _createFromStates {
     var object = defaults;
 
     for (final modifier in _states) {
@@ -115,7 +115,7 @@ mixin _\$${className}Factory {
   }
   
   ${className}Factory state(
-      ${className} Function(${className}) Function(\$${className}FactoryState) state) {
+      $className Function($className) Function(\$${className}FactoryState) state) {
     _states.add(state(_state));
 
     return this as ${className}Factory;
@@ -131,20 +131,20 @@ mixin _\$${className}Factory {
 }
 
 abstract class \$${className}FactoryState {
-  ${className} Function(${className}) call({
-    ${typedParameters}
+  $className Function($className) call({
+    $typedParameters
   });
 }
 
 abstract class \$${className}FactoryCreate {
-  ${className} call({
-    ${typedParameters}
+  $className call({
+    $typedParameters
   });
 }
 
 abstract class \$${className}FactoryCreateMany {
-  List<${className}> call(int count, {
-    ${typedParameters}
+  List<$className> call(int count, {
+    $typedParameters
   });
 }
 
@@ -153,13 +153,13 @@ class _\$${className}FactoryStateImpl
   _\$${className}FactoryStateImpl();
 
   @override
-  ${className} Function(${className}) call({
-    ${dynamicParameters}
+  $className Function($className) call({
+    $dynamicParameters
   }) =>
       (defaults) =>
-          (defaults.copyWith as _\$${className}CopyWithImpl<${className}, ${className}>)
+          (defaults.copyWith as _\$${className}CopyWithImpl<$className, $className>)
               .call(
-            ${callParameters}
+            $callParameters
           );
 }
 
@@ -167,15 +167,15 @@ class _\$${className}FactoryCreateImpl
     implements \$${className}FactoryCreate {
   _\$${className}FactoryCreateImpl(this._default);
 
-  final ${className} Function() _default;
+  final $className Function() _default;
 
   @override
-  ${className} call({
-    ${dynamicParameters}
+  $className call({
+    $dynamicParameters
   }) =>
-      (_default().copyWith as _\$${className}CopyWithImpl<${className}, ${className}>)
+      (_default().copyWith as _\$${className}CopyWithImpl<$className, $className>)
             .call(
-          ${callParameters}
+          $callParameters
         );
 }
 
@@ -183,18 +183,18 @@ class _\$${className}FactoryCreateManyImpl
     implements \$${className}FactoryCreateMany {
   _\$${className}FactoryCreateManyImpl(this._default);
 
-  final ${className} Function() _default;
+  final $className Function() _default;
 
   @override
-  List<${className}> call(int count, {
-    ${dynamicParameters}
+  List<$className> call(int count, {
+    $dynamicParameters
   }) =>
       List.generate(
         count,
         (index) => (_default().copyWith as _\$${className}CopyWithImpl<
-                ${className}, ${className}>)
+                $className, $className>)
             .call(
-          ${callParameters}
+          $callParameters
         ),
       );
 }
