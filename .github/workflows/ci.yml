@@ -54,5 +54,8 @@ jobs:
       - name: Install dependencies
         run: dart pub get
 
+      - name: Build
+        run: dart run build_runner build --delete-conflicting-outputs
+
       - name: Run tests
         run: dart test
