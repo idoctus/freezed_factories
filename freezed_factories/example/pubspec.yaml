@@ -9,6 +9,8 @@ environment:
 dependencies:
   freezed_factories:
     path: ../
+  freezed_factories_annotation:
+    path: ../../freezed_factories_annotation
   freezed_annotation: ^2.4.4
   faker: ^2.2.0
 

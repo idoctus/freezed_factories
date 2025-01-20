@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:freezed_factories/annotations.dart';
+import 'package:freezed_factories_annotation/freezed_factories_annotation.dart';
 import 'package:source_gen_test/annotations.dart';
 
 @freezed

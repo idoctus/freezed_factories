@@ -1,9 +1,8 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:build/build.dart';
+import 'package:freezed_factories_annotation/freezed_factories_annotation.dart';
 import 'package:source_gen/source_gen.dart';
-
-import '../annotations.dart';
 
 class FactoryGenerator extends GeneratorForAnnotation<FreezedFactory> {
   @override

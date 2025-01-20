@@ -1,0 +1,14 @@
+name: freezed_factories_annotation
+description: Annotations for freezed_factories.
+version: 1.0.0
+repository: https://github.com/idoctus/freezed_factories
+issue_tracker: https://github.com/idoctus/freezed_factories/issues
+
+environment:
+  sdk: ^3.6.0
+
+dependencies:
+
+dev_dependencies:
+  lints: ^5.0.0
+  test: ^1.24.0

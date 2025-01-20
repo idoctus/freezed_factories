@@ -1,7 +1,2 @@
 .idea
 *.iml
-build/
-
-.dart_tool/
-pubspec.lock
-*.freezed.dart
