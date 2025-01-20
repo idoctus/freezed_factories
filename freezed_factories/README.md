@@ -26,8 +26,15 @@ To generate a factory for class, create a class, annotate it with
 `@FreezedFactory(FreezedClassName)`, add the mixin, override the `defaults` getter and import the
 part file.
 
+Also you can create methods to generate different states of the object.
+
 ```dart
+import 'package:faker/faker.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:freezed_factories_annotation/freezed_factories_annotation.dart';
+
 part 'person.factory.dart';
+part 'person.freezed.dart';
 
 @freezed
 class Person with _$Person {
@@ -43,12 +50,17 @@ class Person with _$Person {
 @FreezedFactory(Person)
 class PersonFactory with _$PersonFactory {
   @override
-  Person get defaults =>
-      Person(
-        firstName: faker.person.firstName(),
-        lastName: faker.person.lastName(),
-        age: faker.randomGenerator.integer(99),
-      );
+  Person get defaults => Person(
+    firstName: faker.person.firstName(),
+    lastName: faker.person.lastName(),
+    age: faker.randomGenerator.integer(99),
+  );
+
+  PersonFactory adult() {
+    return state((state) => state(
+      age: faker.randomGenerator.integer(99, min: 18),
+    ));
+  }
 }
 ```
 
