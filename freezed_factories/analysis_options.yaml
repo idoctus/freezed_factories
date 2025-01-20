@@ -3,3 +3,4 @@ include: package:lints/recommended.yaml
 analyzer:
   exclude:
     - test/src/generate_example_golden.dart
+    - example/**
