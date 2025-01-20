@@ -15,7 +15,7 @@ class FactoryGenerator extends GeneratorForAnnotation<FreezedFactory> {
     final typeElement = annotation.read('type').typeValue.element;
 
     if (typeElement == null) {
-      throw InvalidGenerationSourceError(
+      throw InvalidGenerationSource(
         'Invalid type provided to @FreezedFactory annotation.',
         element: element,
       );
@@ -25,12 +25,14 @@ class FactoryGenerator extends GeneratorForAnnotation<FreezedFactory> {
     typeElement as ClassElement;
 
     checkFreezed(typeElement);
+
     checkFactoryGetter(typeElement);
 
     final constructor = typeElement.constructors.firstWhere(
       (element) => !element.isPrivate && element.isFactory,
-      orElse: () => throw InvalidGenerationSourceError(
-        '@freezedFactory can only be applied on classes with a public factory.',
+      orElse: () => throw InvalidGenerationSource(
+        '@FreezedFactory can only be applied on classes with a public factory.',
+        todo: 'Add a public factory to the class.',
         element: element,
       ),
     );
@@ -43,8 +45,8 @@ class FactoryGenerator extends GeneratorForAnnotation<FreezedFactory> {
 
   void checkIsClass(Element element) {
     if (element is! ClassElement) {
-      throw InvalidGenerationSourceError(
-        '@freezedFactory can only be applied on classes.',
+      throw InvalidGenerationSource(
+        '@FreezedFactory can only be applied on classes.',
         element: element,
       );
     }
@@ -53,8 +55,8 @@ class FactoryGenerator extends GeneratorForAnnotation<FreezedFactory> {
   void checkFreezed(ClassElement element) {
     if (!element.metadata.any((element) =>
         element.computeConstantValue()?.type?.element?.name == 'Freezed')) {
-      throw InvalidGenerationSourceError(
-        '@freezedFactory can only be applied on classes with @freezed annotation.',
+      throw InvalidGenerationSource(
+        '@FreezedFactory can only be applied on classes with @freezed annotation.',
         element: element,
       );
     }
@@ -64,8 +66,10 @@ class FactoryGenerator extends GeneratorForAnnotation<FreezedFactory> {
     final factoryGetter = element.getGetter('factory');
 
     if (factoryGetter == null || !factoryGetter.isStatic) {
-      throw InvalidGenerationSourceError(
-        '@freezedFactory needs a factory static getter. Please add this:\n\nstatic \$${element.name}Factory get factory => \$${element.name}Factory();\n',
+      throw InvalidGenerationSource(
+        '@FreezedFactory needs a factory static getter.',
+        todo:
+            'Add a factory static getter to the class.\n\nstatic \$${element.name}Factory get factory => \$${element.name}Factory();',
         element: element,
       );
     }
@@ -75,8 +79,8 @@ class FactoryGenerator extends GeneratorForAnnotation<FreezedFactory> {
       List<ParameterElement> parameters, ClassElement element) {
     for (final parameter in parameters) {
       if (!parameter.isNamed) {
-        throw InvalidGenerationSourceError(
-          '@freezedFactory can only be applied on classes with named parameters.',
+        throw InvalidGenerationSource(
+          '@FreezedFactory can only be applied on classes with named parameters.',
           element: parameter,
         );
       }
