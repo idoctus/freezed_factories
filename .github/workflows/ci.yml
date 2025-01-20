@@ -13,14 +13,15 @@ jobs:
     container:
       image:  dart:stable
 
+    defaults:
+      run:
+        working-directory: ./freezed_factories
+
     steps:
       - uses: actions/checkout@v4
 
       - name: Print Dart SDK version
         run: dart --version
-
-      - name: Change directory to freezed_factories
-        run: cd freezed_factories
 
       - name: Install dependencies
         run: dart pub get
@@ -40,14 +41,15 @@ jobs:
     container:
       image:  dart:stable
 
+    defaults:
+      run:
+        working-directory: ./freezed_factories/example
+
     steps:
       - uses: actions/checkout@v4
 
       - name: Print Dart SDK version
         run: dart --version
-
-      - name: Change directory to freezed_factories/example
-        run: cd freezed_factories/example
 
       - name: Install dependencies
         run: dart pub get
