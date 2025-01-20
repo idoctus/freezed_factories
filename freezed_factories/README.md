@@ -1,1 +1,37 @@
-Generator for freezed_factories, see the [root README](../README.md).
+# freezed_factories
+
+Create test factories for your Freezed classes easily.
+
+## Example
+
+To generate a factory for class, create a class, annotate it with
+`@FreezedFactory(FreezedClassName)`, add the mixin, override the `defaults` getter and import the
+part file.
+
+```dart
+part 'person.factory.dart';
+
+@freezed
+class Person with _$Person {
+  const factory Person({
+    required String firstName,
+    required String lastName,
+    int? age,
+  }) = _Person;
+
+  static PersonFactory get factory => PersonFactory();
+}
+
+@FreezedFactory(Person)
+class PersonFactory with _$PersonFactory {
+  @override
+  Person get defaults =>
+      Person(
+        firstName: faker.person.firstName(),
+        lastName: faker.person.lastName(),
+        age: faker.randomGenerator.integer(99),
+      );
+}
+```
+
+In the example above, [faker](https://pub.dev/packages/faker) is used to generate random data.
