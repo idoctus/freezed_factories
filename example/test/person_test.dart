@@ -1,4 +1,4 @@
-import 'package:example/person.dart';
+import 'package:freezed_factories_example/person.dart';
 import 'package:test/test.dart';
 
 void main() {
