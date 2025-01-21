@@ -2,8 +2,8 @@ import 'package:faker/faker.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:freezed_factories_annotation/freezed_factories_annotation.dart';
 
-part 'person.factory.dart';
-part 'person.freezed.dart';
+part 'main.factory.dart';
+part 'main.freezed.dart';
 
 @freezed
 class Person with _$Person {
