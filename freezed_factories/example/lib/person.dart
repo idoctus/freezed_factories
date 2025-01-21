@@ -20,7 +20,7 @@ class Person with _$Person {
 @FreezedFactory(Person)
 class PersonFactory with _$PersonFactory {
   @override
-  Person get defaults => Person(
+  Person get _defaults => Person(
         firstName: faker.person.firstName(),
         lastName: faker.person.lastName(),
         age: faker.randomGenerator.integer(99),

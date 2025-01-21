@@ -3,10 +3,10 @@ part of 'generate_example.dart';
 mixin _$PersonFactory {
   final List<Person Function(Person)> _states = [];
 
-  Person get defaults;
+  Person get _defaults;
 
   Person get _createFromStates {
-    var object = defaults;
+    var object = _defaults;
 
     for (final modifier in _states) {
       object = modifier(object);

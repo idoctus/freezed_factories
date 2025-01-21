@@ -108,10 +108,10 @@ class FactoryGenerator extends GeneratorForAnnotation<FreezedFactory> {
 mixin _\$${className}Factory { 
   final List<$className Function($className)> _states = [];
 
-  $className get defaults;
+  $className get _defaults;
   
   $className get _createFromStates {
-    var object = defaults;
+    var object = _defaults;
 
     for (final modifier in _states) {
       object = modifier(object);

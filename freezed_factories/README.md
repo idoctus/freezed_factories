@@ -23,7 +23,7 @@ dart pub add dev:freezed_factories
 ## How to use
 
 To generate a factory for class, create a class, annotate it with
-`@FreezedFactory(FreezedClassName)`, add the mixin, override the `defaults` getter and import the
+`@FreezedFactory(FreezedClassName)`, add the mixin, override the `_defaults` getter and import the
 part file.
 
 Also you can create methods to generate different states of the object.
@@ -50,7 +50,7 @@ class Person with _$Person {
 @FreezedFactory(Person)
 class PersonFactory with _$PersonFactory {
   @override
-  Person get defaults => Person(
+  Person get _defaults => Person(
     firstName: faker.person.firstName(),
     lastName: faker.person.lastName(),
     age: faker.randomGenerator.integer(99),
