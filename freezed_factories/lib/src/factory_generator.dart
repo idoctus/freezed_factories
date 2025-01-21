@@ -4,6 +4,9 @@ import 'package:build/build.dart';
 import 'package:freezed_factories_annotation/freezed_factories_annotation.dart';
 import 'package:source_gen/source_gen.dart';
 
+/// Generator for the `@FreezedFactory` annotation.
+///
+/// It is the main piece of the package.
 class FactoryGenerator extends GeneratorForAnnotation<FreezedFactory> {
   @override
   String generateForAnnotatedElement(
