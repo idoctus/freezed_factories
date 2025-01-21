@@ -1,6 +1,6 @@
 name: freezed_factories
 description: "Create test factories for your Freezed classes easily"
-version: 1.0.0-dev.1
+version: 1.0.0-dev.2
 repository: https://github.com/idoctus/freezed_factories
 issue_tracker: https://github.com/idoctus/freezed_factories/issues
 
