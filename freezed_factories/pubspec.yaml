@@ -1,9 +1,8 @@
 name: freezed_factories
 description: "Create test factories for your Freezed classes easily"
-version: 0.1.0
+version: 1.0.0-dev.1
 repository: https://github.com/idoctus/freezed_factories
 issue_tracker: https://github.com/idoctus/freezed_factories/issues
-publish_to: none
 
 environment:
   sdk: ^3.6.0
@@ -12,8 +11,7 @@ dependencies:
   analyzer: ^6.7.0
   build: ^2.4.1
   source_gen: ^1.5.0
-  freezed_factories_annotation:
-    path: ../freezed_factories_annotation
+  freezed_factories_annotation: ^1.0.0-dev.1
 
 dev_dependencies:
   build_runner: ^2.4.13
