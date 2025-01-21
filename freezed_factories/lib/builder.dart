@@ -11,6 +11,7 @@ Builder factoryBuilder(BuilderOptions options) => PartBuilder(
       '.factory.dart',
       header: '''
 // coverage:ignore-file
+// ignore_for_file: type=lint
 // GENERATED CODE - DO NOT MODIFY BY HAND
     ''',
     );
