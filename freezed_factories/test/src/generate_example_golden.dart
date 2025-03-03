@@ -85,13 +85,12 @@ class _$PersonFactoryCreateImpl implements $PersonFactoryCreate {
     Object? lastName,
     Object? gender = freezed,
     Object? age = freezed,
-  }) =>
-      (_default().copyWith as _$PersonCopyWithImpl<Person, Person>).call(
-        firstName: firstName,
-        lastName: lastName,
-        gender: gender,
-        age: age,
-      );
+  }) => (_default().copyWith as _$PersonCopyWithImpl<Person, Person>).call(
+    firstName: firstName,
+    lastName: lastName,
+    gender: gender,
+    age: age,
+  );
 }
 
 class _$PersonFactoryCreateManyImpl implements $PersonFactoryCreateMany {
@@ -106,15 +105,14 @@ class _$PersonFactoryCreateManyImpl implements $PersonFactoryCreateMany {
     Object? lastName,
     Object? gender = freezed,
     Object? age = freezed,
-  }) =>
-      List.generate(
-        count,
-        (index) =>
-            (_default().copyWith as _$PersonCopyWithImpl<Person, Person>).call(
+  }) => List.generate(
+    count,
+    (index) =>
+        (_default().copyWith as _$PersonCopyWithImpl<Person, Person>).call(
           firstName: firstName,
           lastName: lastName,
           gender: gender,
           age: age,
         ),
-      );
+  );
 }
