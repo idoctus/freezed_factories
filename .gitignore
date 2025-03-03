@@ -1,5 +1,2 @@
 .idea
 *.iml
-
-# FVM Version Cache
-*.fvm/
