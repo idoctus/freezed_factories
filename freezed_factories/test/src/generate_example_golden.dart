@@ -46,7 +46,7 @@ abstract class $PersonFactoryCreate {
 }
 
 abstract class $PersonFactoryCreateMany {
-  List<Person> call(
+  List<_Person> call(
     int count, {
     String firstName,
     String lastName,
@@ -60,18 +60,17 @@ class _$PersonFactoryStateImpl implements $PersonFactoryState {
 
   @override
   Person Function(Person) call({
-    Object? firstName,
-    Object? lastName,
+    Object? firstName = null,
+    Object? lastName = null,
     Object? gender = freezed,
     Object? age = freezed,
   }) =>
-      (defaults) =>
-          (defaults.copyWith as _$PersonCopyWithImpl<Person, Person>).call(
-            firstName: firstName,
-            lastName: lastName,
-            gender: gender,
-            age: age,
-          );
+      (defaults) => (defaults.copyWith as __$PersonCopyWithImpl<_Person>).call(
+        firstName: firstName,
+        lastName: lastName,
+        gender: gender,
+        age: age,
+      );
 }
 
 class _$PersonFactoryCreateImpl implements $PersonFactoryCreate {
@@ -81,11 +80,11 @@ class _$PersonFactoryCreateImpl implements $PersonFactoryCreate {
 
   @override
   Person call({
-    Object? firstName,
-    Object? lastName,
+    Object? firstName = null,
+    Object? lastName = null,
     Object? gender = freezed,
     Object? age = freezed,
-  }) => (_default().copyWith as _$PersonCopyWithImpl<Person, Person>).call(
+  }) => (_default().copyWith as __$PersonCopyWithImpl<_Person>).call(
     firstName: firstName,
     lastName: lastName,
     gender: gender,
@@ -99,20 +98,19 @@ class _$PersonFactoryCreateManyImpl implements $PersonFactoryCreateMany {
   final Person Function() _default;
 
   @override
-  List<Person> call(
+  List<_Person> call(
     int count, {
-    Object? firstName,
-    Object? lastName,
+    Object? firstName = null,
+    Object? lastName = null,
     Object? gender = freezed,
     Object? age = freezed,
   }) => List.generate(
     count,
-    (index) =>
-        (_default().copyWith as _$PersonCopyWithImpl<Person, Person>).call(
-          firstName: firstName,
-          lastName: lastName,
-          gender: gender,
-          age: age,
-        ),
+    (index) => (_default().copyWith as __$PersonCopyWithImpl<_Person>).call(
+      firstName: firstName,
+      lastName: lastName,
+      gender: gender,
+      age: age,
+    ),
   );
 }
