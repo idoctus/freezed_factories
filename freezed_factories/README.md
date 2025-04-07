@@ -40,7 +40,7 @@ part 'person.factory.dart';
 part 'person.freezed.dart';
 
 @freezed
-class Person with _$Person {
+abstract class Person with _$Person {
   const factory Person({
     required String firstName,
     required String lastName,
