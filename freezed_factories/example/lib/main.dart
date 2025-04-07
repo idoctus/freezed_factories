@@ -6,7 +6,7 @@ part 'main.factory.dart';
 part 'main.freezed.dart';
 
 @freezed
-class Person with _$Person {
+abstract class Person with _$Person {
   const factory Person({
     required String firstName,
     required String lastName,
@@ -21,20 +21,18 @@ class Person with _$Person {
 class PersonFactory with _$PersonFactory {
   @override
   Person get _defaults => Person(
-        firstName: faker.person.firstName(),
-        lastName: faker.person.lastName(),
-        age: faker.randomGenerator.integer(99),
-      );
+    firstName: faker.person.firstName(),
+    lastName: faker.person.lastName(),
+    age: faker.randomGenerator.integer(99),
+  );
 
   PersonFactory adult() {
-    return state((state) => state(
-          age: faker.randomGenerator.integer(99, min: 18),
-        ));
+    return state(
+      (state) => state(age: faker.randomGenerator.integer(99, min: 18)),
+    );
   }
 
   PersonFactory male() {
-    return state((state) => state(
-          gender: 'male',
-        ));
+    return state((state) => state(gender: 'male'));
   }
 }

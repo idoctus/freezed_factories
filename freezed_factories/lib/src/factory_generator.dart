@@ -100,7 +100,8 @@ class FactoryGenerator extends GeneratorForAnnotation<FreezedFactory> {
       final isNullable = type.nullabilitySuffix == NullabilitySuffix.question;
 
       typedParameters += '$type $name,\n';
-      dynamicParameters += 'Object? $name${isNullable ? ' = freezed' : ''},\n';
+      dynamicParameters +=
+          'Object? $name = ${isNullable ? 'freezed' : 'null'},\n';
       callParameters += '$name: $name,\n';
     }
 
@@ -149,7 +150,7 @@ abstract class \$${className}FactoryCreate {
 }
 
 abstract class \$${className}FactoryCreateMany {
-  List<$className> call(int count, {
+  List<_$className> call(int count, {
     $typedParameters
   });
 }
@@ -163,7 +164,7 @@ class _\$${className}FactoryStateImpl
     $dynamicParameters
   }) =>
       (defaults) =>
-          (defaults.copyWith as _\$${className}CopyWithImpl<$className, $className>)
+          (defaults.copyWith as __\$${className}CopyWithImpl<_$className>)
               .call(
             $callParameters
           );
@@ -179,7 +180,7 @@ class _\$${className}FactoryCreateImpl
   $className call({
     $dynamicParameters
   }) =>
-      (_default().copyWith as _\$${className}CopyWithImpl<$className, $className>)
+      (_default().copyWith as __\$${className}CopyWithImpl<_$className>)
             .call(
           $callParameters
         );
@@ -192,13 +193,12 @@ class _\$${className}FactoryCreateManyImpl
   final $className Function() _default;
 
   @override
-  List<$className> call(int count, {
+  List<_$className> call(int count, {
     $dynamicParameters
   }) =>
       List.generate(
         count,
-        (index) => (_default().copyWith as _\$${className}CopyWithImpl<
-                $className, $className>)
+        (index) => (_default().copyWith as __\$${className}CopyWithImpl<_$className>)
             .call(
           $callParameters
         ),

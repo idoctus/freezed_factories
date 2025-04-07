@@ -16,7 +16,8 @@ mixin _$PersonFactory {
   }
 
   PersonFactory state(
-      Person Function(Person) Function($PersonFactoryState) state) {
+    Person Function(Person) Function($PersonFactoryState) state,
+  ) {
     _states.add(state(_state));
 
     return this as PersonFactory;
@@ -41,16 +42,11 @@ abstract class $PersonFactoryState {
 }
 
 abstract class $PersonFactoryCreate {
-  Person call({
-    String firstName,
-    String lastName,
-    String? gender,
-    int? age,
-  });
+  Person call({String firstName, String lastName, String? gender, int? age});
 }
 
 abstract class $PersonFactoryCreateMany {
-  List<Person> call(
+  List<_Person> call(
     int count, {
     String firstName,
     String lastName,
@@ -64,18 +60,17 @@ class _$PersonFactoryStateImpl implements $PersonFactoryState {
 
   @override
   Person Function(Person) call({
-    Object? firstName,
-    Object? lastName,
+    Object? firstName = null,
+    Object? lastName = null,
     Object? gender = freezed,
     Object? age = freezed,
   }) =>
-      (defaults) =>
-          (defaults.copyWith as _$PersonCopyWithImpl<Person, Person>).call(
-            firstName: firstName,
-            lastName: lastName,
-            gender: gender,
-            age: age,
-          );
+      (defaults) => (defaults.copyWith as __$PersonCopyWithImpl<_Person>).call(
+        firstName: firstName,
+        lastName: lastName,
+        gender: gender,
+        age: age,
+      );
 }
 
 class _$PersonFactoryCreateImpl implements $PersonFactoryCreate {
@@ -85,17 +80,16 @@ class _$PersonFactoryCreateImpl implements $PersonFactoryCreate {
 
   @override
   Person call({
-    Object? firstName,
-    Object? lastName,
+    Object? firstName = null,
+    Object? lastName = null,
     Object? gender = freezed,
     Object? age = freezed,
-  }) =>
-      (_default().copyWith as _$PersonCopyWithImpl<Person, Person>).call(
-        firstName: firstName,
-        lastName: lastName,
-        gender: gender,
-        age: age,
-      );
+  }) => (_default().copyWith as __$PersonCopyWithImpl<_Person>).call(
+    firstName: firstName,
+    lastName: lastName,
+    gender: gender,
+    age: age,
+  );
 }
 
 class _$PersonFactoryCreateManyImpl implements $PersonFactoryCreateMany {
@@ -104,21 +98,19 @@ class _$PersonFactoryCreateManyImpl implements $PersonFactoryCreateMany {
   final Person Function() _default;
 
   @override
-  List<Person> call(
+  List<_Person> call(
     int count, {
-    Object? firstName,
-    Object? lastName,
+    Object? firstName = null,
+    Object? lastName = null,
     Object? gender = freezed,
     Object? age = freezed,
-  }) =>
-      List.generate(
-        count,
-        (index) =>
-            (_default().copyWith as _$PersonCopyWithImpl<Person, Person>).call(
-          firstName: firstName,
-          lastName: lastName,
-          gender: gender,
-          age: age,
-        ),
-      );
+  }) => List.generate(
+    count,
+    (index) => (_default().copyWith as __$PersonCopyWithImpl<_Person>).call(
+      firstName: firstName,
+      lastName: lastName,
+      gender: gender,
+      age: age,
+    ),
+  );
 }
