@@ -1,3 +1,6 @@
+[![Build Status](https://github.com/idoctus/freezed_factories/workflows/CI/badge.svg)](https://github.com/idoctus/freezed_factories/actions)
+[![Pub](https://img.shields.io/pub/v/freezed_factories.svg)](https://pub.dartlang.org/packages/freezed_factories)
+
 # freezed_factories
 
 Create test factories for your Freezed classes easily.
