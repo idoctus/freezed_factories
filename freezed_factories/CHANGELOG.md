@@ -1,6 +1,6 @@
-## 1.1.0
+## 2.0.0
 
-- Bump Freezed to v3.0.4
+- Freezed v3 compatibility.
 
 ## 1.0.0
 
