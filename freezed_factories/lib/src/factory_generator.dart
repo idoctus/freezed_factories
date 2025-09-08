@@ -1,4 +1,4 @@
-import 'package:analyzer/dart/element/element.dart';
+import 'package:analyzer/dart/element/element2.dart';
 import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:build/build.dart';
 import 'package:freezed_factories_annotation/freezed_factories_annotation.dart';
@@ -10,11 +10,11 @@ import 'package:source_gen/source_gen.dart';
 class FactoryGenerator extends GeneratorForAnnotation<FreezedFactory> {
   @override
   String generateForAnnotatedElement(
-    Element element,
+    Element2 element,
     ConstantReader annotation,
     BuildStep buildStep,
   ) {
-    final typeElement = annotation.read('type').typeValue.element;
+    final typeElement = annotation.read('type').typeValue.element3;
 
     if (typeElement == null) {
       throw InvalidGenerationSource(
@@ -24,13 +24,13 @@ class FactoryGenerator extends GeneratorForAnnotation<FreezedFactory> {
     }
 
     checkIsClass(typeElement);
-    typeElement as ClassElement;
+    typeElement as ClassElement2;
 
     checkFreezed(typeElement);
 
     checkFactoryGetter(typeElement);
 
-    final constructor = typeElement.constructors.firstWhere(
+    final constructor = typeElement.constructors2.firstWhere(
       (element) => !element.isPrivate && element.isFactory,
       orElse: () => throw InvalidGenerationSource(
         '@FreezedFactory can only be applied on classes with a public factory.',
@@ -39,14 +39,14 @@ class FactoryGenerator extends GeneratorForAnnotation<FreezedFactory> {
       ),
     );
 
-    final parameters = constructor.parameters;
+    final parameters = constructor.formalParameters;
     checkParameters(parameters, typeElement);
 
-    return _generateFactory(typeElement.name, parameters);
+    return _generateFactory(typeElement.displayName, parameters);
   }
 
-  void checkIsClass(Element element) {
-    if (element is! ClassElement) {
+  void checkIsClass(Element2 element) {
+    if (element is! ClassElement2) {
       throw InvalidGenerationSource(
         '@FreezedFactory can only be applied on classes.',
         element: element,
@@ -54,9 +54,10 @@ class FactoryGenerator extends GeneratorForAnnotation<FreezedFactory> {
     }
   }
 
-  void checkFreezed(ClassElement element) {
-    if (!element.metadata.any((element) =>
-        element.computeConstantValue()?.type?.element?.name == 'Freezed')) {
+  void checkFreezed(ClassElement2 element) {
+    if (!element.metadata2.annotations.any((element) =>
+        element.computeConstantValue()?.type?.element3?.displayName ==
+        'Freezed')) {
       throw InvalidGenerationSource(
         '@FreezedFactory can only be applied on classes with @freezed annotation.',
         element: element,
@@ -64,21 +65,21 @@ class FactoryGenerator extends GeneratorForAnnotation<FreezedFactory> {
     }
   }
 
-  void checkFactoryGetter(ClassElement element) {
-    final factoryGetter = element.getGetter('factory');
+  void checkFactoryGetter(ClassElement2 element) {
+    final factoryGetter = element.getGetter2('factory');
 
     if (factoryGetter == null || !factoryGetter.isStatic) {
       throw InvalidGenerationSource(
         '@FreezedFactory needs a factory static getter.',
         todo:
-            'Add a factory static getter to the class.\n\nstatic \$${element.name}Factory get factory => \$${element.name}Factory();',
+            'Add a factory static getter to the class.\n\nstatic \$${element.displayName}Factory get factory => \$${element.displayName}Factory();',
         element: element,
       );
     }
   }
 
   void checkParameters(
-      List<ParameterElement> parameters, ClassElement element) {
+      List<FormalParameterElement> parameters, ClassElement2 element) {
     for (final parameter in parameters) {
       if (!parameter.isNamed) {
         throw InvalidGenerationSource(
@@ -89,14 +90,15 @@ class FactoryGenerator extends GeneratorForAnnotation<FreezedFactory> {
     }
   }
 
-  String _generateFactory(String className, List<ParameterElement> parameters) {
+  String _generateFactory(
+      String className, List<FormalParameterElement> parameters) {
     var typedParameters = '';
     var dynamicParameters = '';
     var callParameters = '';
 
     for (final parameter in parameters) {
       final type = parameter.type;
-      final name = parameter.name;
+      final name = parameter.displayName;
       final isNullable = type.nullabilitySuffix == NullabilitySuffix.question;
 
       typedParameters += '$type $name,\n';
