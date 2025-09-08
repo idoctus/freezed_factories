@@ -55,9 +55,11 @@ class FactoryGenerator extends GeneratorForAnnotation<FreezedFactory> {
   }
 
   void checkFreezed(ClassElement2 element) {
-    if (!element.metadata2.annotations.any((element) =>
-        element.computeConstantValue()?.type?.element3?.displayName ==
-        'Freezed')) {
+    if (!element.metadata2.annotations.any(
+      (element) =>
+          element.computeConstantValue()?.type?.element3?.displayName ==
+          'Freezed',
+    )) {
       throw InvalidGenerationSource(
         '@FreezedFactory can only be applied on classes with @freezed annotation.',
         element: element,
@@ -79,7 +81,9 @@ class FactoryGenerator extends GeneratorForAnnotation<FreezedFactory> {
   }
 
   void checkParameters(
-      List<FormalParameterElement> parameters, ClassElement2 element) {
+    List<FormalParameterElement> parameters,
+    ClassElement2 element,
+  ) {
     for (final parameter in parameters) {
       if (!parameter.isNamed) {
         throw InvalidGenerationSource(
@@ -91,7 +95,9 @@ class FactoryGenerator extends GeneratorForAnnotation<FreezedFactory> {
   }
 
   String _generateFactory(
-      String className, List<FormalParameterElement> parameters) {
+    String className,
+    List<FormalParameterElement> parameters,
+  ) {
     var typedParameters = '';
     var dynamicParameters = '';
     var callParameters = '';

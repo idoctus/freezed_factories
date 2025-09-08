@@ -13,8 +13,5 @@ Future<void> main() async {
   );
 
   initializeBuildLogTracking();
-  testAnnotatedElements<FreezedFactory>(
-    reader,
-    FactoryGenerator(),
-  );
+  testAnnotatedElements<FreezedFactory>(reader, FactoryGenerator());
 }

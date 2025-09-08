@@ -11,8 +11,7 @@ class Person {
     required String lastName,
     @Default('female') String? gender,
     int? age,
-  }) =>
-      Person._();
+  }) => Person._();
 
   static PersonFactory get factory => PersonFactory();
 }
@@ -41,16 +40,11 @@ class ClassWithoutNamedParameters {
       ClassWithoutNamedParametersFactory();
 }
 
-@ShouldGenerateFile(
-  'generate_example_golden.dart',
-  partOfCurrent: true,
-)
+@ShouldGenerateFile('generate_example_golden.dart', partOfCurrent: true)
 @FreezedFactory(Person)
 class PersonFactory {}
 
-@ShouldThrow(
-  '@FreezedFactory can only be applied on classes.',
-)
+@ShouldThrow('@FreezedFactory can only be applied on classes.')
 @FreezedFactory(NotAClass)
 class NotAClassFactory {}
 
