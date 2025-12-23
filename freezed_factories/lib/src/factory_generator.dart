@@ -1,4 +1,4 @@
-import 'package:analyzer/dart/element/element2.dart';
+import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:build/build.dart';
 import 'package:freezed_factories_annotation/freezed_factories_annotation.dart';
@@ -10,11 +10,11 @@ import 'package:source_gen/source_gen.dart';
 class FactoryGenerator extends GeneratorForAnnotation<FreezedFactory> {
   @override
   String generateForAnnotatedElement(
-    Element2 element,
+    Element element,
     ConstantReader annotation,
     BuildStep buildStep,
   ) {
-    final typeElement = annotation.read('type').typeValue.element3;
+    final typeElement = annotation.read('type').typeValue.element;
 
     if (typeElement == null) {
       throw InvalidGenerationSource(
@@ -24,13 +24,13 @@ class FactoryGenerator extends GeneratorForAnnotation<FreezedFactory> {
     }
 
     checkIsClass(typeElement);
-    typeElement as ClassElement2;
+    typeElement as ClassElement;
 
     checkFreezed(typeElement);
 
     checkFactoryGetter(typeElement);
 
-    final constructor = typeElement.constructors2.firstWhere(
+    final constructor = typeElement.constructors.firstWhere(
       (element) => !element.isPrivate && element.isFactory,
       orElse: () => throw InvalidGenerationSource(
         '@FreezedFactory can only be applied on classes with a public factory.',
@@ -45,8 +45,8 @@ class FactoryGenerator extends GeneratorForAnnotation<FreezedFactory> {
     return _generateFactory(typeElement.displayName, parameters);
   }
 
-  void checkIsClass(Element2 element) {
-    if (element is! ClassElement2) {
+  void checkIsClass(Element element) {
+    if (element is! ClassElement) {
       throw InvalidGenerationSource(
         '@FreezedFactory can only be applied on classes.',
         element: element,
@@ -54,10 +54,10 @@ class FactoryGenerator extends GeneratorForAnnotation<FreezedFactory> {
     }
   }
 
-  void checkFreezed(ClassElement2 element) {
-    if (!element.metadata2.annotations.any(
+  void checkFreezed(ClassElement element) {
+    if (!element.metadata.annotations.any(
       (element) =>
-          element.computeConstantValue()?.type?.element3?.displayName ==
+          element.computeConstantValue()?.type?.element?.displayName ==
           'Freezed',
     )) {
       throw InvalidGenerationSource(
@@ -67,8 +67,8 @@ class FactoryGenerator extends GeneratorForAnnotation<FreezedFactory> {
     }
   }
 
-  void checkFactoryGetter(ClassElement2 element) {
-    final factoryGetter = element.getGetter2('factory');
+  void checkFactoryGetter(ClassElement element) {
+    final factoryGetter = element.getGetter('factory');
 
     if (factoryGetter == null || !factoryGetter.isStatic) {
       throw InvalidGenerationSource(
@@ -82,7 +82,7 @@ class FactoryGenerator extends GeneratorForAnnotation<FreezedFactory> {
 
   void checkParameters(
     List<FormalParameterElement> parameters,
-    ClassElement2 element,
+    ClassElement element,
   ) {
     for (final parameter in parameters) {
       if (!parameter.isNamed) {
