@@ -1,3 +1,7 @@
+## 3.1.0
+
+- Updated minimum SDK requirement to >=3.10.3
+
 ## 3.0.0
 
 - Build v4 compatibility.
