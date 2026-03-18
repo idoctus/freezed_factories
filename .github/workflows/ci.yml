@@ -15,7 +15,7 @@ jobs:
         working-directory: ./freezed_factories
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - uses: dart-lang/setup-dart@v1
         with:
@@ -44,7 +44,7 @@ jobs:
         working-directory: ./freezed_factories/example
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - uses: dart-lang/setup-dart@v1
         with:
