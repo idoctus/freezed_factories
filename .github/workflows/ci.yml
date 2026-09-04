@@ -19,7 +19,8 @@ jobs:
 
       - uses: dart-lang/setup-dart@v1
         with:
-          sdk: "3.10.3"
+          # Dart shipped with the Flutter version pinned in .fvmrc (3.47.2)
+          sdk: "3.13.2"
 
       - name: Print Dart SDK version
         run: dart --version
@@ -48,7 +49,8 @@ jobs:
 
       - uses: dart-lang/setup-dart@v1
         with:
-          sdk: "3.10.3"
+          # Dart shipped with the Flutter version pinned in .fvmrc (3.47.2)
+          sdk: "3.13.2"
 
       - name: Print Dart SDK version
         run: dart --version
